@@ -28,10 +28,6 @@ class BasicRoute extends React.Component{
             sessionStorage.setItem("isLogin",1);
             history.push("/url");
         }
-        else
-        {
-            history.push("/");
-        }
     }
 
     render(){

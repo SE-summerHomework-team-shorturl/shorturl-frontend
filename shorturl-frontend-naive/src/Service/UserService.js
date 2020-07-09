@@ -8,7 +8,6 @@ import cookie from 'react-cookies';
 export const userRegister = (json) => {
     const url = backendUrl+`/user/register`;
     const callback = (msg) => {
-        console.log(msg);
         if(msg.status == "DUP_USERNAME" ) {
             message.error("该用户名已存在");
         }
