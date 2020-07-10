@@ -3,6 +3,7 @@ import {Layout,  Input} from 'antd';
 import {findAllShortUrls} from "../Service/UrlService";
 import UrlList from "../Components/UrlList";
 import Topbar from "../Components/Topbar";
+import {history} from "../history";
 const {Header, Content} = Layout;
 
 
@@ -13,6 +14,10 @@ class UserManageView extends React.Component {
     }
 
     componentDidMount(){
+        if(sessionStorage.getItem("isLogin")!=1)
+        {
+            history.push("/");
+        }
         const callback =  (data) => {
             this.setState({data:data});
             console.log(data);

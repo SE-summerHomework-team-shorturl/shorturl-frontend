@@ -2,6 +2,7 @@ import React from 'react';
 import {Layout, Input,Typography} from 'antd';
 import {addShortUrl} from "../Service/UrlService";
 import Topbar from "../Components/Topbar";
+import {history} from "../history";
 const {Header, Content, } = Layout;
 const {Search} = Input;
 const {Link} = Typography;
@@ -12,6 +13,10 @@ class UserUrlView extends React.Component {
     }
 
     componentDidMount(){
+        if(sessionStorage.getItem("isLogin")!=1)
+        {
+            history.push("/");
+        }
     }
 
     urlInput = (value) =>{
