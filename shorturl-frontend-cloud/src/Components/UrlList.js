@@ -29,6 +29,9 @@ class UrlList extends React.Component {
                 </Link>
             },
             {
+                title: '点击量', key:'clicks',dataIndex: 'clicks', width: 50, align: 'center',
+            },
+            {
                 title: '操作',
                 dataIndex: 'operation',
                 align: 'center',

@@ -6,7 +6,6 @@ import RegisterView from "./View/RegisterView";
 import UserManageView from "./View/UserManageView";
 import {history} from "./history";
 import cookie from "react-cookies";
-import {userLogin} from "./Service/UserService";
 import Base64 from "base-64";
 class BasicRoute extends React.Component{
 

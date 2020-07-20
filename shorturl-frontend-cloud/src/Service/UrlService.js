@@ -31,7 +31,7 @@ export const findAllShortUrls = (then) => {
             message.error("读取失败");
         }
     };
-    const url = backendUrl+`/urlmanage/findurl?page=0&size=100`;
+    const url = backendUrl+`/urlmanage/findurl`;
     getRequest_Auth(url, auth, callback);
 };
 
