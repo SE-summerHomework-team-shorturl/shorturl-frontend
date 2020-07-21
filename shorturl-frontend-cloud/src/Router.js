@@ -4,6 +4,7 @@ import LoginView from "./View/LoginView";
 import UserUrlView from "./View/UserUrlView";
 import RegisterView from "./View/RegisterView";
 import UserManageView from "./View/UserManageView";
+import AdminView from "./View/AdminView";
 import {history} from "./history";
 import cookie from "react-cookies";
 import Base64 from "base-64";
@@ -36,6 +37,7 @@ class BasicRoute extends React.Component{
                 <Route exact path="/url" component={UserUrlView} />
                 <Route exact path="/reg" component={RegisterView} />
                 <Route exact path="/url/manage" component={UserManageView} />
+                <Route exact path="/admin" component={AdminView} />
             </Router>
         )
     }

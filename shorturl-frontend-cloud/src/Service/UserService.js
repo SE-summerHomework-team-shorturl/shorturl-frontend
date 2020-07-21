@@ -31,9 +31,9 @@ export const userLogin = (username,password,remember,then) => {
     const auth = "Basic "+Base64.encode(("client:client-secret"));
     const callback = (msg) => {
         if(msg.hasOwnProperty("access_token")){
-            console.log(msg.access_token);
+            console.log(msg);
             sessionStorage.setItem("userAuth",msg.access_token);
-            sessionStorage.setItem("userData",msg.user);
+            sessionStorage.setItem("userData",JSON.stringify(msg.user));
             sessionStorage.setItem("isLogin",1);
             message.success("登陆成功");
             if(remember==true)

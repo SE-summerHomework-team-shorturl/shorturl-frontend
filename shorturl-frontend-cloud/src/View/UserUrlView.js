@@ -42,6 +42,7 @@ class UserUrlView extends React.Component {
                                     enterButton="缩短URL"
                                     onSearch={this.urlInput}
                                     style={{marginLeft:'15%',marginRight:'15%',width:'70%'}}
+                                    size="large"
                                 />
                                 <Link href={this.state.shortenedUrl}  target="_blank" style={{marginLeft:'15%',marginRight:'15%',width:'70%'}}>
                                     {this.state.shortenedUrl}
