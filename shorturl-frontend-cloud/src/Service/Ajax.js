@@ -64,6 +64,23 @@ let getRequest_Auth = (url, auth, callback) => {
         });
 };
 
+let getRequest = (url, callback) => {
+    let opts = {
+        method: "GET"
+    };
+
+    fetch(url,opts)
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+            callback(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
+
 let postRequest_Auth = (url, auth, callback) => {
     let opts = {
         method: "POST",
@@ -84,4 +101,4 @@ let postRequest_Auth = (url, auth, callback) => {
         });
 };
 
-export {postRequest_Data,postRequest_Json,getRequest_Auth,postRequest_Auth};
+export {postRequest_Data,postRequest_Json,getRequest,getRequest_Auth,postRequest_Auth};

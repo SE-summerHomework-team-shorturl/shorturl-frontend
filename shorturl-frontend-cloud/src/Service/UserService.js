@@ -1,4 +1,4 @@
-import {postRequest_Data, postRequest_Json, postRequest_Auth} from "./Ajax";
+import {postRequest_Data, postRequest_Json, postRequest_Auth,getRequest} from "./Ajax";
 import {history} from "../history";
 import {message} from "antd";
 import {backendUrl} from "./UrlConfig";
@@ -31,7 +31,9 @@ export const userLogin = (username,password,remember,then) => {
     const auth = "Basic "+Base64.encode(("client:client-secret"));
     const callback = (msg) => {
         if(msg.hasOwnProperty("access_token")){
+            console.log(msg.access_token);
             sessionStorage.setItem("userAuth",msg.access_token);
+            sessionStorage.setItem("userData",msg.user);
             sessionStorage.setItem("isLogin",1);
             message.success("登陆成功");
             if(remember==true)
@@ -51,10 +53,15 @@ export const userLogin = (username,password,remember,then) => {
 };
 
 export const logout = () => {
-    sessionStorage.removeItem("userAuth");
-    sessionStorage.removeItem("isLogin");
-    cookie.remove("username");
-    cookie.remove("password");
-    cookie.remove("remember");
-    history.push("/");
+    const callback = (msg) => {
+        sessionStorage.removeItem("userAuth");
+        sessionStorage.removeItem("isLogin");
+        sessionStorage.removeItem("userData");
+        cookie.remove("username");
+        cookie.remove("password");
+        cookie.remove("remember");
+        history.push("/");
+    }
+    const url = backendUrl+`/logout?token=`+sessionStorage.getItem("userAuth");
+    getRequest(url, callback);
 }
