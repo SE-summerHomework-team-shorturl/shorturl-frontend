@@ -7,9 +7,10 @@ class Topbar extends React.Component{
     constructor(props) {
         super(props);
         console.log(props);
+        console.log(sessionStorage.getItem("auth"));
         this.state = {
             select: props.select,
-            admin:JSON.parse(sessionStorage.getItem("userData")).admin
+            admin: sessionStorage.getItem("auth")
         };
     }
 
@@ -24,7 +25,7 @@ class Topbar extends React.Component{
                     >
                         <Menu.Item key={"1"} ><Link to='/url'>URL生成</Link ></Menu.Item>
                         <Menu.Item key={"2"} ><Link to='/url/manage'>URL管理</Link ></Menu.Item>
-                        {this.state.admin?<Menu.Item key={"3"} ><Link to='/admin'>管理员功能</Link ></Menu.Item>:null}
+                        {this.state.admin==1?<Menu.Item key={"3"} ><Link to='/admin'>管理员功能</Link ></Menu.Item>:null}
                     </Menu>
                 </Col>
                 <Col span={2} push={13}>

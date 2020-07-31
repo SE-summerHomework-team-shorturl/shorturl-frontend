@@ -5,7 +5,7 @@ import {backendUrl} from "./UrlConfig";
 import {getRequest_Auth} from "./Ajax";
 
 export const addShortUrl = (longUrl,then) => {
-    const auth = "Bearer "+sessionStorage.getItem("userAuth");
+    const auth = "Bearer "+sessionStorage.getItem("token");
     const callback = (msg) => {
         console.log(msg);
         if(msg.status=="SUCCESS") {
@@ -21,7 +21,7 @@ export const addShortUrl = (longUrl,then) => {
 };
 
 export const findAllShortUrls = (then) => {
-    const auth = "Bearer "+sessionStorage.getItem("userAuth");
+    const auth = "Bearer "+sessionStorage.getItem("token");
     const callback = (msg) => {
         console.log(msg);
         if(msg.status=="SUCCESS") {
@@ -36,7 +36,7 @@ export const findAllShortUrls = (then) => {
 };
 
 export const deleteShortUrl = (id,then) => {
-    const auth = "Bearer "+sessionStorage.getItem("userAuth");
+    const auth = "Bearer "+sessionStorage.getItem("token");
     const callback = (msg) => {
         if(msg.status=="SUCCESS") {
             message.success("删除成功");

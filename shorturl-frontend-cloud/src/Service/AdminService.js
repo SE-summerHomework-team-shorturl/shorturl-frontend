@@ -3,7 +3,7 @@ import {backendUrl} from "./UrlConfig";
 import {getRequest_Auth} from "./Ajax";
 
 export const adminFindAllShortUrls = (then) => {
-    const auth = "Bearer "+sessionStorage.getItem("userAuth");
+    const auth = "Bearer "+sessionStorage.getItem("token");
     const callback = (msg) => {
         console.log(msg);
         if(msg.status=="SUCCESS") {
@@ -18,7 +18,7 @@ export const adminFindAllShortUrls = (then) => {
 };
 
 export const adminFindAllUsers = (then) => {
-    const auth = "Bearer "+sessionStorage.getItem("userAuth");
+    const auth = "Bearer "+sessionStorage.getItem("token");
     const callback = (msg) => {
         console.log(msg);
         if(msg.status=="SUCCESS") {
@@ -33,7 +33,7 @@ export const adminFindAllUsers = (then) => {
 };
 
 export const adminDeletedeleteShortUrl = (id,then) => {
-    const auth = "Bearer "+sessionStorage.getItem("userAuth");
+    const auth = "Bearer "+sessionStorage.getItem("token");
     const callback = (msg) => {
         console.log(msg);
         if(msg.status=="SUCCESS") {
