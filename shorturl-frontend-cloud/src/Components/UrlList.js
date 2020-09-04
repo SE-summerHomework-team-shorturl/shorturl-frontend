@@ -1,7 +1,8 @@
 import React from 'react';
-import {Table, Popconfirm, Typography, Modal, message} from 'antd';
+import {Table, Popconfirm, Typography, Modal, message, Button} from 'antd';
 import {backendUrl} from "../Service/UrlConfig";
 import {deleteShortUrl} from "../Service/UrlService";
+import StatTable from "./StatTable";
 
 const { Link } = Typography;
 
@@ -9,7 +10,9 @@ class UrlList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataSource: []
+            dataSource: [],
+            visible:false,
+            modalInfo:{}
         };
 
         this.columns = [
@@ -29,7 +32,14 @@ class UrlList extends React.Component {
                 </Link>
             },
             {
-                title: '点击量', key:'clicks',dataIndex: 'clicks', width: 50, align: 'center',
+                title: '总点击量', key:'totalClicks',dataIndex: 'totalClicks', width: 50, align: 'center',
+            },
+            {
+                title: '点击情况', key:'stat',dataIndex: 'stat',width: 50,align: 'center',
+                render: (text,row) => <Button
+                    type="primary"
+                    onClick={()=>this.handleClick(row)}
+                >查看统计</Button>
             },
             {
                 title: '操作',
@@ -47,11 +57,20 @@ class UrlList extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({dataSource: this.props.data},()=>console.log(this.state.dataSource));
+        let data = this.props.data;
+        for (var i=0;i<data.length;i++)
+        {
+            data[i].totalClicks=data[i].shortUrlStat.totalClicks;
+        }
+        this.setState({dataSource: data},()=>console.log(this.state.dataSource));
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
         let newData = nextProps.data;
+        for (var i=0;i<newData.length;i++)
+        {
+            newData[i].totalClicks=newData[i].shortUrlStat.totalClicks;
+        }
         this.setState({dataSource:newData},()=>console.log(this.state.dataSource));
     }
 
@@ -66,14 +85,40 @@ class UrlList extends React.Component {
 
     };
 
+    handleClick = row => {
+        this.setState({modalInfo:row.shortUrlStat.dailyClicksStats},()=>this.showModal())
+    }
+
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    };
+    handleCancel = () => {
+        this.setState({
+            visible: false,
+        });
+    };
+
     render() {
         return (
+            <>
+                <Modal
+                    title="点击量统计"
+                    visible={this.state.visible}
+                    onCancel={this.handleCancel}
+                    footer={[
+                    ]}
+                >
+                    <StatTable data={this.state.modalInfo}/>
+                </Modal>
                 <Table
                     rowClassName={() => 'editable-row'}
                     dataSource={this.state.dataSource}
                     columns={this.columns}
                     pagination={{pageSize: 10}}
                 />
+            </>
         );
     }
 }

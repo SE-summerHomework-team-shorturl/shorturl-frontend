@@ -32,6 +32,7 @@ export const userLogin = (username, password, remember, then) => {
         if (msg.hasOwnProperty("access_token")) {
             console.log(msg);
             sessionStorage.setItem("token", msg.access_token);
+            console.log(msg.access_token);
             let auth = jwt_decode(msg.access_token).authorities;
             if (auth == null) {
                 console.log("No auth");

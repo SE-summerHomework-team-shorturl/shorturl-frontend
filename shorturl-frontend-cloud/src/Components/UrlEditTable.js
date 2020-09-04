@@ -1,7 +1,9 @@
 import React from 'react';
-import {Table, Button, Popconfirm, Upload, message, Typography} from 'antd';
+import {Table, Button, Popconfirm, Upload, message, Typography,Modal} from 'antd';
 import {adminDeletedeleteShortUrl} from "../Service/AdminService";
 import {backendUrl} from "../Service/UrlConfig";
+import Text from "antd/es/typography/Text";
+import StatTable from "./StatTable";
 
 const { Link } = Typography;
 
@@ -10,6 +12,8 @@ class UrlEditTable extends React.Component {
         super(props);
         this.state = {
             dataSource: [],
+            visible:false,
+            modalInfo:{}
         };
         this.columns = [
             {
@@ -29,7 +33,14 @@ class UrlEditTable extends React.Component {
                 </Link>
             },
             {
-                title: '点击量', key:'clicks',dataIndex: 'clicks', width: 50, align: 'center',
+                title: '总点击量', key:'totalClicks',dataIndex: 'totalClicks', width: 50, align: 'center',
+            },
+            {
+                title: '点击情况', key:'stat',dataIndex: 'stat',width: 50,align: 'center',
+                render: (text,row) => <Button
+                    type="primary"
+                    onClick={()=>this.handleClick(row)}
+                >查看统计</Button>
             },
             {
                 title: '操作',
@@ -47,11 +58,21 @@ class UrlEditTable extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({dataSource: this.props.data});
+        let data = this.props.data;
+        for (var i=0;i<data.length;i++)
+        {
+            data[i].totalClicks=data[i].shortUrlStat.totalClicks;
+        }
+        this.setState({dataSource: data},()=>console.log(this.state.dataSource));
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        this.setState({dataSource: nextProps.data});
+        let newData = nextProps.data;
+        for (var i=0;i<newData.length;i++)
+        {
+            newData[i].totalClicks=newData[i].shortUrlStat.totalClicks;
+        }
+        this.setState({dataSource:newData},()=>console.log(this.state.dataSource));
     }
 
     handleDelete = key => {
@@ -63,14 +84,40 @@ class UrlEditTable extends React.Component {
         adminDeletedeleteShortUrl(key,callback);
     };
 
+    handleClick = row => {
+        this.setState({modalInfo:row.shortUrlStat.dailyClicksStats},()=>this.showModal())
+    }
+
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    };
+    handleCancel = () => {
+        this.setState({
+            visible: false,
+        });
+    };
+
     render() {
         return (
-            <Table
-                rowClassName={() => 'editable-row'}
-                dataSource={this.state.dataSource}
-                columns={this.columns}
-                pagination={{pageSize: 10}}
-            />
+            <>
+                <Modal
+                    title="点击量统计"
+                    visible={this.state.visible}
+                    onCancel={this.handleCancel}
+                    footer={[
+                    ]}
+                >
+                    <StatTable data={this.state.modalInfo}/>
+                </Modal>
+                <Table
+                    rowClassName={() => 'editable-row'}
+                    dataSource={this.state.dataSource}
+                    columns={this.columns}
+                    pagination={{pageSize: 10}}
+                />
+            </>
         );
     }
 }
